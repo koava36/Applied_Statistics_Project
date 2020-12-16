@@ -10,7 +10,7 @@ def get_bootstrap_samples(data, n_samples):
     indices = np.random.randint(0, len(data), (n_samples, len(data)))
     return indices
 
-def Amortized_bootstrap_learning(implicit_model, x_model, X_0, y_0, n_bootstrap_sampling,
+def Amortized_bootstrap_learning(implicit_model, x_model, criterion, X_0, y_0, n_bootstrap_sampling,
                                  n_epochs, batch_size, learning_rate=0.1):
     # This function takes implicit model, data model p(y|x, theta) (x_model)
     # and data X_0, y_0
@@ -25,7 +25,7 @@ def Amortized_bootstrap_learning(implicit_model, x_model, X_0, y_0, n_bootstrap_
     X_train, y_train = X_0, y_0
     f = implicit_model
     optimizer = optim.SGD(f.parameters(), lr=learning_rate)
-    criterion = torch.nn.BCELoss(size_average=True)
+    criterion = criterion
 
     for i in range(N_bootstrap_sampling):
         # sample once every few epochs
